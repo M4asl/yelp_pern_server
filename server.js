@@ -27,6 +27,25 @@ app.get('/api/v1/restaurants', async (req, res) => {
   }
 });
 
+//Get a Restaurant
+app.get('/api/v1/restaurants/:id', async (req, res) => {
+  try {
+    const result = await db.query(
+      'select * from restaurants where id=$1',
+      [req.params.id]
+    );
+
+    res.status(200).json({
+      status: 'succes',
+      data: {
+        restaurant: result.rows[0],
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 const port = process.env.PORT || 3004;
 app.listen(port, () => {
   console.log('Server running on port 3005');

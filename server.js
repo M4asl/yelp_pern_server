@@ -92,6 +92,22 @@ app.put('/api/v1/restaurants/:id', async (req, res) => {
   console.log(req.body);
 });
 
+// Delete Restaurant
+
+app.delete('/api/v1/restaurants/:id', async (req, res) => {
+  try {
+    const results = db.query(
+      'DELETE FROM restaurants where id = $1',
+      [req.params.id]
+    );
+    res.status(204).json({
+      status: 'sucess',
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 const port = process.env.PORT || 3004;
 app.listen(port, () => {
   console.log('Server running on port 3005');

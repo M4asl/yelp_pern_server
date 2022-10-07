@@ -46,6 +46,25 @@ app.get('/api/v1/restaurants/:id', async (req, res) => {
   }
 });
 
+// Create a Restaurant
+app.post('/api/v1/restaurants', async (req, res) => {
+  try {
+    const results = await db.query(
+      'INSERT INTO restaurants (name, location, price_range) values ($1, $2, $3) returning *',
+      [req.body.name, req.body.location, req.body.price_range]
+    );
+
+    res.status(201).json({
+      status: 'succes',
+      data: {
+        restaurant: results.rows[0],
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 const port = process.env.PORT || 3004;
 app.listen(port, () => {
   console.log('Server running on port 3005');
